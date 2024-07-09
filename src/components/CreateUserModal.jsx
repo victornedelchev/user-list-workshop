@@ -1,4 +1,4 @@
-export default function CreateUserModal({onClose}) {
+export default function CreateUserModal({ onClose, onUserCreate }) {
   return (
     <div className="overlay">
       <div className="backdrop" onClick={onClose}></div>
@@ -24,7 +24,7 @@ export default function CreateUserModal({onClose}) {
               </svg>
             </button>
           </header>
-          <form>
+          <form onSubmit={onUserCreate}>
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="firstName">First name</label>
@@ -122,7 +122,12 @@ export default function CreateUserModal({onClose}) {
               <button id="action-save" className="btn" type="submit">
                 Save
               </button>
-              <button id="action-cancel" className="btn" type="button" onClick={onClose}>
+              <button
+                id="action-cancel"
+                className="btn"
+                type="button"
+                onClick={onClose}
+              >
                 Cancel
               </button>
             </div>

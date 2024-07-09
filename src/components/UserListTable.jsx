@@ -8,7 +8,10 @@ export default function UserListTable() {
   const [showUserModal, setShowUserModal] = useState(false);
 
   useEffect(() => {
-    userAPI.getAll().then((result) => setUsers(result));
+    userAPI
+      .getAll()
+      .then((result) => setUsers(result))
+      .catch((err) => console.error(err));
   }, []);
 
   const createUserClickHandler = () => {
@@ -16,6 +19,16 @@ export default function UserListTable() {
   };
 
   const hideCreateUserModal = () => {
+    setShowUserModal(false);
+  };
+
+  const userCreateHandler = async (event) => {
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(event.currentTarget));
+    const newUser = await userAPI.create(data);
+    
+    setUsers(users => [...users, newUser]);
+
     setShowUserModal(false);
   };
 
@@ -140,7 +153,12 @@ export default function UserListTable() {
         Add new user
       </button>
 
-      {showUserModal && <CreateUserModal onClose={hideCreateUserModal} />}
+      {showUserModal && (
+        <CreateUserModal
+          onClose={hideCreateUserModal}
+          onUserCreate={userCreateHandler}
+        />
+      )}
     </div>
   );
 }
