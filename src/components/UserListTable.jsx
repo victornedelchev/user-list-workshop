@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
 import * as userAPI from "../api/userAPI";
 import UserListItem from "./UserListItem";
+import CreateUserModal from "./CreateUserModal";
 
 export default function UserListTable() {
   const [users, setUsers] = useState([]);
+  const [showUserModal, setShowUserModal] = useState(false);
 
   useEffect(() => {
     userAPI.getAll().then((result) => setUsers(result));
   }, []);
+
+  const createUserClickHandler = () => {
+   setShowUserModal(true)
+  }
 
   return (
     <div className="table-wrapper">
@@ -124,6 +130,11 @@ export default function UserListTable() {
           ))}
         </tbody>
       </table>
+
+      {/* <!-- New user button  --> */}
+      <button className="btn-add btn" onClick={createUserClickHandler}>Add new user</button>
+
+      {showUserModal && <CreateUserModal />}
     </div>
   );
 }
