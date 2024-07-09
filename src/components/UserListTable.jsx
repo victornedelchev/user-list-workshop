@@ -4,7 +4,6 @@ import UserListItem from "./UserListItem";
 
 export default function UserListTable() {
   const [users, setUsers] = useState([]);
-  
 
   useEffect(() => {
     userAPI.getAll().then((result) => setUsers(result));
