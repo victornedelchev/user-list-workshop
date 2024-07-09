@@ -4,7 +4,7 @@ import UserListItem from "./UserListItem";
 
 export default function UserListTable() {
   const [users, setUsers] = useState([]);
-  console.log(users);
+  
 
   useEffect(() => {
     userAPI.getAll().then((result) => setUsers(result));
@@ -111,7 +111,18 @@ export default function UserListTable() {
         </thead>
         <tbody>
           {/* <!-- Table row component --> */}
-          <UserListItem />
+          {users.map((user) => (
+            // <UserListItem {...user} />;
+            <UserListItem
+              key={user._id}
+              firstName={user.firstName}
+              lastName={user.lastName}
+              email={user.email}
+              phoneNumber={user.phoneNumber}
+              createdAt={user.createdAt}
+              imageUrl={user.imageUrl}
+            />
+          ))}
         </tbody>
       </table>
     </div>
