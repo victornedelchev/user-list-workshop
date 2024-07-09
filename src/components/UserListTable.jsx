@@ -1,6 +1,15 @@
+import { useEffect, useState } from "react";
+import * as userAPI from "../api/userAPI";
 import UserListItem from "./UserListItem";
 
 export default function UserListTable() {
+  const [users, setUsers] = useState([]);
+  console.log(users);
+
+  useEffect(() => {
+    userAPI.getAll().then((result) => setUsers(result));
+  }, []);
+
   return (
     <div className="table-wrapper">
       <table className="table">
