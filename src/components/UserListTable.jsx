@@ -12,8 +12,12 @@ export default function UserListTable() {
   }, []);
 
   const createUserClickHandler = () => {
-   setShowUserModal(true)
-  }
+    setShowUserModal(true);
+  };
+
+  const hideCreateUserModal = () => {
+    setShowUserModal(false);
+  };
 
   return (
     <div className="table-wrapper">
@@ -132,9 +136,11 @@ export default function UserListTable() {
       </table>
 
       {/* <!-- New user button  --> */}
-      <button className="btn-add btn" onClick={createUserClickHandler}>Add new user</button>
+      <button className="btn-add btn" onClick={createUserClickHandler}>
+        Add new user
+      </button>
 
-      {showUserModal && <CreateUserModal />}
+      {showUserModal && <CreateUserModal onClose={hideCreateUserModal} />}
     </div>
   );
 }
