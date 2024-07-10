@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import * as userAPI from "../api/userAPI";
 import UserListItem from "./UserListItem";
 import CreateUserModal from "./CreateUserModal";
+import UserInfoModal from "./UserInfoModal";
 
 export default function UserListTable() {
   const [users, setUsers] = useState([]);
   const [showUserModal, setShowUserModal] = useState(false);
+  const [showUserInfoNodal, setShowInfoUserModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
     userAPI
@@ -23,17 +26,38 @@ export default function UserListTable() {
   };
 
   const userCreateHandler = async (event) => {
+    // Stop page from refreshing
     event.preventDefault();
+    // Get data from form data
     const data = Object.fromEntries(new FormData(event.currentTarget));
+    // Create new user at the server
     const newUser = await userAPI.create(data);
-    
-    setUsers(users => [...users, newUser]);
-
+    // Add newly created user to the local state
+    setUsers((users) => [...users, newUser]);
+    // Close the modal
     setShowUserModal(false);
+  };
+
+  const userInfoClickHandler = async (userId) => {
+    setSelectedUser(userId);
+    setShowInfoUserModal(true);
+  };
+
+  const hideUserInfo = () => {
+    setShowInfoUserModal(false);
   };
 
   return (
     <div className="table-wrapper">
+      {showUserModal && (
+        <CreateUserModal
+          onClose={hideCreateUserModal}
+          onUserCreate={userCreateHandler}
+        />
+      )}
+
+      {showUserInfoNodal && <UserInfoModal onClose={hideUserInfo} userId={selectedUser} />}
+
       <table className="table">
         <thead>
           <tr>
@@ -137,12 +161,14 @@ export default function UserListTable() {
             // <UserListItem {...user} />;
             <UserListItem
               key={user._id}
+              userId={user._id}
               firstName={user.firstName}
               lastName={user.lastName}
               email={user.email}
               phoneNumber={user.phoneNumber}
               createdAt={user.createdAt}
               imageUrl={user.imageUrl}
+              onUserInfoClick={userInfoClickHandler}
             />
           ))}
         </tbody>
@@ -152,13 +178,6 @@ export default function UserListTable() {
       <button className="btn-add btn" onClick={createUserClickHandler}>
         Add new user
       </button>
-
-      {showUserModal && (
-        <CreateUserModal
-          onClose={hideCreateUserModal}
-          onUserCreate={userCreateHandler}
-        />
-      )}
     </div>
   );
 }
