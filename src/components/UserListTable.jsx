@@ -17,7 +17,7 @@ export default function UserListTable() {
   useEffect(() => {
     try {
       userAPI.getAll().then((result) => setUsers(result));
-      // setShowSpinner(false);
+      setShowSpinner(false);
     } catch (error) {
       console.error(error);
     } finally {
