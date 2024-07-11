@@ -6,10 +6,11 @@ export default function UserInfoModal({ onClose, userId }) {
   const [userDetails, setUserDetails] = useState({});
 
   useEffect(() => {
-    userAPI
-      .getOne(userId)
-      .then((result) => setUserDetails(result))
-      .catch((err) => console.error(err));
+    try {
+      userAPI.getOne(userId).then((result) => setUserDetails(result));
+    } catch (error) {
+      console.error(error);
+    }
   }, [userId]);
 
   return (
@@ -66,17 +67,19 @@ export default function UserInfoModal({ onClose, userId }) {
                 Address:
                 <strong>
                   {" "}
-                  {userDetails.address?.country},{" "}
-                  {userDetails.address?.city}, {userDetails.address?.street}{" "}
+                  {userDetails.address?.country}, {userDetails.address?.city},{" "}
+                  {userDetails.address?.street}{" "}
                   {userDetails.address?.streetNumber}{" "}
                 </strong>
               </p>
 
               <p>
-                Created on: <strong>{dateFormatter(userDetails.createdAt)}</strong>
+                Created on:{" "}
+                <strong>{dateFormatter(userDetails.createdAt)}</strong>
               </p>
               <p>
-                Modified on: <strong>{dateFormatter(userDetails.updatedAt)}</strong>
+                Modified on:{" "}
+                <strong>{dateFormatter(userDetails.UpdatedAt)}</strong>
               </p>
             </div>
           </div>
