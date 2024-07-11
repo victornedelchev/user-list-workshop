@@ -9,25 +9,20 @@ export default function UserListItem({
   createdAt,
   imageUrl,
   onUserInfoClick,
-  onDeleteClick
+  onDeleteClick,
 }) {
-
   const infoClickHandler = () => {
     onUserInfoClick(userId);
-  }
+  };
 
   const deleteClickHandler = () => {
     onDeleteClick(userId);
-  }
+  };
 
   return (
     <tr>
       <td>
-        <img
-          src={imageUrl}
-          alt={`${firstName}'s profile`}
-          className="image"
-        />
+        <img src={imageUrl} alt={`${firstName}'s profile`} className="image" />
       </td>
       <td>{firstName}</td>
       <td>{lastName}</td>
@@ -53,7 +48,11 @@ export default function UserListItem({
             ></path>
           </svg>
         </button>
-        <button className="btn delete-btn" title="Delete" onClick={deleteClickHandler}>
+        <button
+          className="btn delete-btn"
+          title="Delete"
+          onClick={deleteClickHandler}
+        >
           <svg
             aria-hidden="true"
             focusable="false"
@@ -70,7 +69,11 @@ export default function UserListItem({
             ></path>
           </svg>
         </button>
-        <button className="btn info-btn" title="Info" onClick={infoClickHandler}>
+        <button
+          className="btn info-btn"
+          title="Info"
+          onClick={infoClickHandler}
+        >
           <svg
             aria-hidden="true"
             focusable="false"

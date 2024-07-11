@@ -10,7 +10,6 @@ export default function UserList() {
       {/* <!-- Table component --> */}
       <UserListTable />
 
-
       {/* <!-- Pagination component  --> */}
       <div className="pagination position">
         <div className="limits">

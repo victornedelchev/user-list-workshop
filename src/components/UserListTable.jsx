@@ -4,6 +4,7 @@ import UserListItem from "./UserListItem";
 import CreateUserModal from "./CreateUserModal";
 import UserInfoModal from "./UserInfoModal";
 import UserDeleteModal from "./UserDeleteModal";
+import Spinner from "./Spinner";
 
 export default function UserListTable() {
   const [users, setUsers] = useState([]);
@@ -11,12 +12,17 @@ export default function UserListTable() {
   const [showUserInfoNodal, setShowInfoUserModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(true);
 
   useEffect(() => {
-    userAPI
-      .getAll()
-      .then((result) => setUsers(result))
-      .catch((err) => console.error(err));
+    try {
+      userAPI.getAll().then((result) => setUsers(result));
+      // setShowSpinner(false);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setShowSpinner(false);
+    }
   }, []);
 
   const createUserClickHandler = () => {
@@ -69,6 +75,8 @@ export default function UserListTable() {
 
   return (
     <div className="table-wrapper">
+      {showSpinner && <Spinner />}
+
       {showUserModal && (
         <CreateUserModal
           onClose={hideCreateUserModal}
@@ -199,6 +207,7 @@ export default function UserListTable() {
               imageUrl={user.imageUrl}
               onUserInfoClick={userInfoClickHandler}
               onDeleteClick={deleteUserClickHandler}
+              isLoading={showSpinner}
             />
           ))}
         </tbody>
