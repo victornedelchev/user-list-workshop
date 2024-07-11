@@ -3,12 +3,14 @@ import * as userAPI from "../api/userAPI";
 import UserListItem from "./UserListItem";
 import CreateUserModal from "./CreateUserModal";
 import UserInfoModal from "./UserInfoModal";
+import UserDeleteModal from "./UserDeleteModal";
 
 export default function UserListTable() {
   const [users, setUsers] = useState([]);
   const [showUserModal, setShowUserModal] = useState(false);
   const [showUserInfoNodal, setShowInfoUserModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     userAPI
@@ -47,6 +49,19 @@ export default function UserListTable() {
     setShowInfoUserModal(false);
   };
 
+  const deleteUserClickHandler = (userId) => {
+    setSelectedUser(userId);
+    setShowDeleteModal(true);
+  };
+
+  const deleteUserHandler = async () => {
+    console.log("delete user");
+  };
+
+  const hideUserDeleteModal = () => {
+    setShowDeleteModal(false);
+  };
+
   return (
     <div className="table-wrapper">
       {showUserModal && (
@@ -56,7 +71,16 @@ export default function UserListTable() {
         />
       )}
 
-      {showUserInfoNodal && <UserInfoModal onClose={hideUserInfo} userId={selectedUser} />}
+      {showUserInfoNodal && (
+        <UserInfoModal onClose={hideUserInfo} userId={selectedUser} />
+      )}
+
+      {showDeleteModal && (
+        <UserDeleteModal
+          onClose={hideUserDeleteModal}
+          onDelete={deleteUserHandler}
+        />
+      )}
 
       <table className="table">
         <thead>
@@ -169,6 +193,7 @@ export default function UserListTable() {
               createdAt={user.createdAt}
               imageUrl={user.imageUrl}
               onUserInfoClick={userInfoClickHandler}
+              onDeleteClick={deleteUserClickHandler}
             />
           ))}
         </tbody>
