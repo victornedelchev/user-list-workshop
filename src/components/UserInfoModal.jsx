@@ -79,7 +79,7 @@ export default function UserInfoModal({ onClose, userId }) {
               </p>
               <p>
                 Modified on:{" "}
-                <strong>{dateFormatter(userDetails.UpdatedAt)}</strong>
+                <strong>{dateFormatter(userDetails.updatedAt)}</strong>
               </p>
             </div>
           </div>
