@@ -21,7 +21,7 @@ export default function UserListTable() {
     } catch (error) {
       console.error(error);
     } finally {
-      setShowSpinner(false);
+      () => setShowSpinner(false);
     }
   }, []);
 
