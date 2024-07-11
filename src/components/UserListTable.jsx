@@ -55,7 +55,12 @@ export default function UserListTable() {
   };
 
   const deleteUserHandler = async () => {
-    console.log("delete user");
+    // remove user from server
+    await userAPI.deleteOne(selectedUser);
+    // remove user from state
+    setUsers((state) => state.filter((user) => user._id !== selectedUser));
+    // close user delete modal
+    setShowDeleteModal(false);
   };
 
   const hideUserDeleteModal = () => {
